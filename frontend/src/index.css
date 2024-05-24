@@ -1,0 +1,66 @@
+html {
+    overflow: hidden;
+}
+
+#login-page {
+    background-color: rgba(43, 48, 54, 1) !important;
+}
+
+#sidebar-wrapper {
+    width: 280px;
+}
+
+#main-screen {
+    width: calc(100vw - 280px);
+}
+
+#shared-area {
+    height: calc(100vh - 56px);
+}
+
+#activity-container {
+    height: calc(100% - 169px);
+    /* overflow-y: auto; */
+}
+
+#create-function-modal-body {
+    height: 60vh;
+    overflow-y: auto;
+}
+
+.border-transparent {
+    border-color: transparent !important;
+}
+
+#list-task-container {
+    height: 58vh !important;
+    /* border: 1px solid; */
+}
+
+#list-body {
+    height: calc(100% - 40px) !important;
+    overflow-y: auto;
+}
+
+@media (max-width: 992px) {
+    #main-screen {
+        width: 100%;
+    }
+    #shared-area {
+        overflow-y: auto;
+        /* border: 1px solid red; */
+    }
+    #home-default {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 640px) {
+    #activity-container {
+        height: 500px;
+        margin: 12px 0 !important;
+        padding: 0px !important;
+        /* padding-bottom: 122px; */
+        /* overflow-y: auto; */
+    }
+}
