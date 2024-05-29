@@ -34,8 +34,14 @@ public class TaskTemplateServicesImpl implements TaskTemplateServices {
 
     @Override
     public TaskTemplateDto createTaskTemplateModel(TaskTemplateDto taskTemplateDto) {
+
+        System.out.println(taskTemplateDto);
+
+
+
         // Create the task template
         TaskTemplateModel createdTaskTemplateModel = this.taskTemplateRepository.save(this.modelMapper.map(taskTemplateDto, TaskTemplateModel.class));
+        createdTaskTemplateModel = this.taskTemplateRepository.saveAndFlush(createdTaskTemplateModel);
         System.out.println("task created");
 
         taskTemplateDto.setId(createdTaskTemplateModel.getId());

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllUsers } from '../../apis/authApis';
 import { selectUser } from '../../app/features/userSlice';
 
-const AssignTaskModal = ({ selectedTaskType, taskPriority }) => {
+const AssignTaskModal = ({ selectedTaskType, taskPriority, customerInfo, taskInfo }) => {
     const dispatch = useDispatch();
 
     const [usersArr, setUsersArr] = useState([]);
@@ -19,7 +19,9 @@ const AssignTaskModal = ({ selectedTaskType, taskPriority }) => {
             setUsersArr(data.payload);
             setSelectedUser(data.payload[0]);
         })()
-    }, []);
+
+        console.log("\n\n\ntaskInfo in assign: ", taskInfo)
+    }, [selectedTaskType, taskPriority, customerInfo, taskInfo]);
 
     const user = useSelector(selectUser);
     console.log("selectedTaskType in assign func:", selectedTaskType, taskPriority);
@@ -38,6 +40,11 @@ const AssignTaskModal = ({ selectedTaskType, taskPriority }) => {
         taskFinishedDate: null,
         taskAssignToUserId: -1, // TODO
         functionDtoList: [],
+        pumpType: taskInfo.pumpType,
+        pumpManufacturer: taskInfo.pumpManufacturer,
+        specification: taskInfo.specification,
+        problemDescription: taskInfo.problemDescription,
+        customerModel: customerInfo
     });
 
     const handleCreateTask = async () => {
@@ -48,12 +55,21 @@ const AssignTaskModal = ({ selectedTaskType, taskPriority }) => {
         // Create the task
         const newTask = { ...task };
         newTask.taskTemplateModelId = selectedTaskType.id;
-console.log("newTask.taskTemplateModelId:", newTask.taskTemplateModelId);
+        console.log("newTask.taskTemplateModelId:", newTask.taskTemplateModelId);
+
+        newTask.pumpType = taskInfo.pumpType,
+        newTask.pumpManufacturer = taskInfo.pumpManufacturer,
+        newTask.specification = taskInfo.specification,
+        newTask.problemDescription = taskInfo.problemDescription,
+
+
+        newTask.customerModel = customerInfo;
+        console.log("\n\n\nCustomer info in assign task modal:", customerInfo)
 
         newTask.taskCreatedByUserId = user.id;
-console.log("selectedUser.id:", selectedUser.id);
+        console.log("selectedUser.id:", selectedUser.id);
         newTask.taskAssignToUserId = selectedUser.id;
-        
+
         newTask.taskAssignedToDepartment = selectedUser.department;
 
         const { data: taskResponse, error: taskError } = await addTask(newTask);
@@ -69,47 +85,47 @@ console.log("selectedUser.id:", selectedUser.id);
 
     }
 
-  return (
-    <div className="modal  fade" id="assignTaskModal" aria-hidden="true" aria-labelledby="assignTaskModal" tabIndex="-1">
-    <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content" >
-            <div className="modal-header">
-                <h1 className="modal-title fs-5" id="exampleModalToggleLabel2">Assign Task</h1>
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div id='create-function-modal-bo dy' className="modal-body modal-dialog-scrollable\">
-                <div className='function-type'>
-                    <label htmlFor="" className='fw-bolder'>Assign the task</label>
-                    <select
-                        value={usersArr.findIndex(ele => ele.email === selectedUser?.email)}
-                        onChange={(e) => setSelectedUser(usersArr[e.target.selectedIndex])}
-                        className="form-select my-2"
-                        aria-label="Default select example"
-                    >
-                        {usersArr?.map((u, index) => (
-                            <option value={index} className='d-flex gap-3'>
-                                <p className='px-2'>{u.email}</p>
-                                {/* <span className='px-2 badge text-bg-secondary' style={{fontSize: '9px'}}>&nbsp;[{u.department}]</span> */}
-                            </option>
-                        ))}
-                    </select>
+    return (
+        <div className="modal  fade" id="assignTaskModal" aria-hidden="true" aria-labelledby="assignTaskModal" tabIndex="-1">
+            <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content" >
+                    <div className="modal-header">
+                        <h1 className="modal-title fs-5" id="exampleModalToggleLabel2">Assign Task</h1>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id='create-function-modal-bo dy' className="modal-body modal-dialog-scrollable\">
+                        <div className='function-type'>
+                            <label htmlFor="" className='fw-bolder'>Assign the task</label>
+                            <select
+                                value={usersArr.findIndex(ele => ele.email === selectedUser?.email)}
+                                onChange={(e) => setSelectedUser(usersArr[e.target.selectedIndex])}
+                                className="form-select my-2"
+                                aria-label="Default select example"
+                            >
+                                {usersArr?.map((u, index) => (
+                                    <option value={index} className='d-flex gap-3'>
+                                        <p className='px-2'>{u.email}</p>
+                                        {/* <span className='px-2 badge text-bg-secondary' style={{fontSize: '9px'}}>&nbsp;[{u.department}]</span> */}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                    </div>
+                    <div className="modal-footer">
+
+                        <button className="btn btn-primary" data-bs-target="#taskInfoDetailsModal" data-bs-toggle="modal">Back</button>
+                        <button
+                            onClick={handleCreateTask}
+                            className="btn btn-primary"
+                            data-bs-target="#assignTaskModal"
+                            data-bs-toggle="modal"
+                        >Create</button>
+                    </div>
                 </div>
-                
-            </div>
-            <div className="modal-footer">
-            
-            <button className="btn btn-primary" data-bs-target="#inputTaskPriorityModal" data-bs-toggle="modal">Back</button>
-                <button 
-                    onClick={handleCreateTask} 
-                    className="btn btn-primary" 
-                    data-bs-target="#assignTaskModal"
-                    data-bs-toggle="modal"
-                >Create</button>
             </div>
         </div>
-    </div>
-</div>
-  )
+    )
 }
 
 export default AssignTaskModal

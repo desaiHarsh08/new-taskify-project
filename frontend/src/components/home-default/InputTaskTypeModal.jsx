@@ -24,10 +24,10 @@ const InputTaskTypeModal = ({ selectedTaskType, setSelectedTaskType, taskArr }) 
                             aria-label="Default select example"
                         >
                             {taskArr.map((task, index) => {
-                                if(index === 0) {
-                                    return <option key={index} value={index}>Repair Service</option>
+                                if(task.taskType.toUpperCase() === "NEW PUMP INQUIRY") {
+                                    return <option key={index} value={index}>New Pump Inquiry</option>
                                 }else {
-                                    return <option key={index} value={index}>New Enquiry</option>
+                                    return <option key={index} value={index}>Service</option>
                                 }
                                 
                             })}

@@ -26,7 +26,7 @@ const InputTaskPriorityModal = ({ taskPriority, setTaskPriority }) => {
                     </div>
                     <div className="modal-footer">
                         <button className="btn btn-primary" data-bs-target="#inputTaskTypeModal" data-bs-toggle="modal">Back</button>
-                        <button className="btn btn-primary" data-bs-target="#assignTaskModal" data-bs-toggle="modal">Continue</button>
+                        <button className="btn btn-primary" data-bs-target="#customerInfoModal" data-bs-toggle="modal">Continue</button>
                     </div>
                 </div>
             </div>

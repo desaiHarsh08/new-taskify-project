@@ -22,7 +22,7 @@ public class MetaFieldTemplateModel {
 
     private String fieldValue;
 
-    @ManyToOne(targetEntity = FunctionMetadataTemplateModel.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = FunctionMetadataTemplateModel.class)
     private FunctionMetadataTemplateModel functionMetadataTemplateModel;
 
 }

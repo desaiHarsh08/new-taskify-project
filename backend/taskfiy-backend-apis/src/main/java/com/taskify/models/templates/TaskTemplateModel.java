@@ -23,4 +23,6 @@ public class TaskTemplateModel {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
+    private String taskType;
+
 }

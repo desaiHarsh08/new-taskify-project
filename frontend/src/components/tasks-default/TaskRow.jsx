@@ -1,12 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { getFormattedDate } from '../../utils/helper'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setTaskId } from '../../app/features/taskIdSlice'
 
-const TaskRow = ({ index, task }) => {
+const TaskRow = ({ index, task, taskTemplateArr }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const [taskType, setTaskType] = useState('');
+    // console.log("taskTemplateArr:", taskTemplateArr)
+
+    useEffect(() => {
+        
+        for(let i = 0; i < taskTemplateArr.length; i++) {
+            console.log(taskTemplateArr[i].taskType, taskTemplateArr[i].id, task.taskTemplateModelId);
+            if(taskTemplateArr[i].id === task.taskTemplateModelId) {
+                setTaskType(taskTemplateArr[i].taskType);
+            }
+        }
+
+    }, [taskTemplateArr])
 
     const handleTaskClick = (taskId) => {
         dispatch(setTaskId(taskId));
@@ -22,8 +36,8 @@ const TaskRow = ({ index, task }) => {
                 <p className="text-sm text-center m-0 py-2">{task.id}</p>
             </th>
             <th scope="row" className='text-center'>
-                {console.log(task?.taskTemplateModelId)}
-                <p className="text-sm text-center m-0 py-2">{task.taskTemplateModelId === 2 ? "New Enquiry" : "Repair Service"}</p>
+                {/* {console.log("\n\n\nin task row:", task)} */}
+                <p className="text-sm text-center m-0 py-2">{taskType}</p>
             </th>
             <td className='text-center'>
                 <p className="text-sm text-center m-0 py-2">{task.taskPriority}</p>

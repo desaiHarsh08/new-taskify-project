@@ -13,6 +13,7 @@ const TasksDefault = () => {
     const dispatch = useDispatch();
 
     const [selectedTab, setSelectedTab] = useState();
+    const [taskTemplateArr, setTaskTemplateArr] = useState([]);
     const [allTask, setAllTask] = useState([]);
     const [taskArr, setTaskArr] = useState([]);
     const [tabArr, setTabArr] = useState([
@@ -27,7 +28,7 @@ const TasksDefault = () => {
     useEffect(() => {
         (async () => {
             const { data, error } = await fetchAllTasks();
-            console.log("all task:", data.payload);
+            // console.log("all task:", data.payload);
             if (data) {
                 const tmpArr = [];
                 for(let i = data.payload.length - 1; i >= 0; i--) {
@@ -44,6 +45,11 @@ const TasksDefault = () => {
                 setTabArr(newTabArr);
 
 
+                const { data: d1, error: e2 } = await fetchAllTaskTemplates();
+                // console.log("tt:", d1.payload);
+                setTaskTemplateArr(d1.payload);
+
+
             }
         })();
 
@@ -54,13 +60,13 @@ const TasksDefault = () => {
 
 
     const filterTask = (tab, allTask) => {
-        console.log(tab);
+        // console.log(tab);
         if (tab.tabLabel === "All Task") {
             tab.totalTask = allTask.length;
         }
         else if (tab.tabLabel === "Completed") {
             let totalTask = allTask.filter((ele) => ele.taskCompleted === true);
-            console.log("Completed task:", totalTask);
+            // console.log("Completed task:", totalTask);
             tab.totalTask = totalTask.length;
         }
         else if (tab.tabLabel === "Pending") {
@@ -80,7 +86,7 @@ const TasksDefault = () => {
             tab.totalTask = totalTask.length;
         }
 
-        console.log("return tab:", tab);
+        // console.log("return tab:", tab);
         return tab;
     }
 
@@ -95,7 +101,7 @@ const TasksDefault = () => {
                 }
                 else if (tab.tabLabel === "Completed") {
                     let totalTask = allTask.filter((ele) => ele.taskCompleted === true);
-                    console.log("Completed task:", totalTask);
+                    // console.log("Completed task:", totalTask);
                     tab.totalTask = totalTask.length;
                     setTaskArr(totalTask);
                 }
@@ -154,8 +160,8 @@ const TasksDefault = () => {
                             </tr>
                         </thead>
                         <tbody id='list-body' style={{ height: "12px", background: "red"}} >
-                            {taskArr.map((task, index) => (
-                                <TaskRow index={index} task={task} />
+                            {taskTemplateArr && taskArr.map((task, index) => (
+                                <TaskRow index={index} task={task} taskTemplateArr={taskTemplateArr} />
                             ))}
                         </tbody>
                     </table>

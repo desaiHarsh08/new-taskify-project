@@ -43,7 +43,16 @@ public class TaskModel {
     @ManyToOne(targetEntity = UserModel.class)
     private UserModel taskAssignToUser;
 
-//    @ManyToOne(targetEntity = UserModel.class)
-//    private UserModel taskFinishedByUser;
+    private String pumpType;
+
+    private String pumpManufacturer;
+
+    private String specification;
+
+    private String problemDescription;
+
+    @ManyToOne(targetEntity = CustomerModel.class)
+    private CustomerModel customerModel;
+
 
 }

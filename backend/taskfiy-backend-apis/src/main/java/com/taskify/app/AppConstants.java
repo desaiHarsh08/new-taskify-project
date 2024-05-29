@@ -38,5 +38,7 @@ public class AppConstants {
 
     public static final String ACTIVITY_LOGS_TABLE = "activity_logs";
 
+    public static final String CUSTOMER_TABLE = "customer_table";
+
 
 }

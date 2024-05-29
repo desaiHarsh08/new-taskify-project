@@ -9,7 +9,7 @@ import { RiLogoutBoxLine } from "react-icons/ri";
 
 const Sidebar = () => {
     const sideNavArr = [
-        { path: "/home", label: "History", icon: <GoWorkflow /> },
+        // { path: "/home", label: "History", icon: <GoWorkflow /> },
         { path: "/home", label: "Home", icon: <RiHomeOfficeLine /> },
         { path: "tasks", label: "All Task", icon: <GoWorkflow /> },
         { path: "settings", label: "Settings", icon: <IoSettingsOutline /> },

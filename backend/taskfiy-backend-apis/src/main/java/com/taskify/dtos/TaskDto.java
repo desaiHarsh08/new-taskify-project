@@ -3,6 +3,7 @@ package com.taskify.dtos;
 import com.taskify.app.AppConstants;
 import com.taskify.app.AppDepartment;
 import com.taskify.app.TASK_PRIORITY;
+import com.taskify.models.CustomerModel;
 import com.taskify.models.UserModel;
 import com.taskify.models.templates.TaskTemplateModel;
 import jakarta.persistence.*;
@@ -42,5 +43,15 @@ public class TaskDto {
     private Integer taskFinishedByUserId;
 
     private List<FunctionDto> functionDtoList;
+
+    private String pumpType;
+
+    private String pumpManufacturer;
+
+    private String specification;
+
+    private String problemDescription;
+
+    private CustomerModel customerModel;
 
 }

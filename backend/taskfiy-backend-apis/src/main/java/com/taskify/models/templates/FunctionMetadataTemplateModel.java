@@ -24,7 +24,7 @@ public class FunctionMetadataTemplateModel {
 
     private String metadataDescription;
 
-    @ManyToOne(targetEntity = FunctionTemplateModel.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = FunctionTemplateModel.class)
     private FunctionTemplateModel functionTemplateModel;
 
 }

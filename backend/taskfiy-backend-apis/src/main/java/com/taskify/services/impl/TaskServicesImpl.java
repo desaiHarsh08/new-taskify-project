@@ -5,8 +5,10 @@ import com.taskify.dtos.FunctionTemplateDto;
 import com.taskify.dtos.TaskDto;
 import com.taskify.exceptions.ResourceNotFoundException;
 import com.taskify.models.ActivityLogModel;
+import com.taskify.models.CustomerModel;
 import com.taskify.models.TaskModel;
 import com.taskify.models.UserModel;
+import com.taskify.repositories.CustomerRepository;
 import com.taskify.repositories.TaskRepository;
 import com.taskify.repositories.TaskTemplateRepository;
 import com.taskify.repositories.UserRepository;
@@ -46,8 +48,14 @@ public class TaskServicesImpl implements TaskServices {
     @Autowired
     private ActivityLogServices activityLogServices;
 
+    @Autowired
+    private CustomerRepository customerRepository;
+
     @Override
     public TaskDto createTask(TaskDto taskDto) {
+        // Create customer
+        CustomerModel customerModel = this.customerRepository.save(taskDto.getCustomerModel());
+
         // Create the task
         TaskModel taskModel = new TaskModel(
                 0,
@@ -59,8 +67,17 @@ public class TaskServicesImpl implements TaskServices {
                 taskDto.getTaskAssignedToDepartmentDate(),
                 false,
                 taskDto.getTaskFinishedDate(),
-                null
+                null,
+                taskDto.getPumpType(),
+                taskDto.getPumpManufacturer(),
+                taskDto.getSpecification(),
+                taskDto.getProblemDescription(),
+                customerModel
         );
+
+
+
+
         taskModel.setTaskAssignToUser(this.userRepository.findById(taskDto.getTaskAssignToUserId()).orElseThrow(() -> new ResourceNotFoundException("UserModel", "id", taskDto.getTaskAssignToUserId())));
         Integer taskId = this.taskRepository.save(taskModel).getId();
         taskModel.setId(taskId);
@@ -103,7 +120,12 @@ public class TaskServicesImpl implements TaskServices {
 
             taskDto.setFunctionDtoList(this.functionServices.fetchByTaskId(taskModel.getId()));
 
+            taskDto.setCustomerModel((this.customerRepository.findById(taskModel.getCustomerModel().getId())).orElseThrow(() -> new ResourceNotFoundException("CustomerModel", "id", taskModel.getCustomerModel().getId())));
+
             taskDtoList.add(taskDto);
+
+
+
         }
 
         return taskDtoList;
@@ -124,6 +146,8 @@ public class TaskServicesImpl implements TaskServices {
             taskDto.setTaskFinishedByUserId(taskModel.getTaskAssignToUser().getId());
 
             taskDto.setFunctionDtoList(this.functionServices.fetchByTaskId(taskModel.getId()));
+
+            taskDto.setCustomerModel((this.customerRepository.findById(taskModel.getCustomerModel().getId())).orElseThrow(() -> new ResourceNotFoundException("CustomerModel", "id", taskModel.getCustomerModel().getId())));
 
             taskDtoList.add(taskDto);
         }
@@ -149,6 +173,8 @@ public class TaskServicesImpl implements TaskServices {
             taskDto.setTaskAssignToUserId(taskModel.getTaskAssignToUser().getId());
         }
 
+        taskDto.setCustomerModel((this.customerRepository.findById(taskModel.getCustomerModel().getId())).orElseThrow(() -> new ResourceNotFoundException("CustomerModel", "id", taskModel.getCustomerModel().getId())));
+        
         taskDto.setFunctionDtoList(this.functionServices.fetchByTaskId(taskId));
 
         return taskDto;

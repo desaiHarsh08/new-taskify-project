@@ -14,6 +14,8 @@ public class TaskTemplateDto {
 
     private Integer id;
 
+    private String taskType;
+
     private List<FunctionTemplateDto> functionTemplateDtoList;
 
 }

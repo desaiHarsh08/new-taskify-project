@@ -29,7 +29,7 @@ public class FunctionTemplateModel {
 
     private boolean isDefaultFunction;
 
-    @ManyToOne(targetEntity = TaskTemplateModel.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = TaskTemplateModel.class)
     private TaskTemplateModel taskTemplateModel;
 
 }

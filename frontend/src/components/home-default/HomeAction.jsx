@@ -7,12 +7,30 @@ import CreateFunctionModal from './CreateFunctionModal'
 import { useSelector } from 'react-redux'
 import { selectUser } from '../../app/features/userSlice'
 import AssignTaskModal from './AssignTaskModal'
+import CustomerInfoModal from './CustomerInfoModal'
+import TaskInfoDetailsModal from './TaskInfoDetailsModal'
 
 const HomeAction = ({ allTasks }) => {
     const user = useSelector(selectUser);
     const [taskArr, setTaskArr] = useState([]);
     const [taskPriority, setTaskPriority] = useState("NORMAL");
     const [selectedTaskType, setSelectedTaskType] = useState();
+    const [customerInfo, setCustomerInfo] = useState({
+        customerIdTemp: '',
+        customerName: '',
+        customerContact: '',
+        customerMobile: '',
+        customerAddress: '',
+        customerCity: '',
+        customerPincode: '',
+    });
+    const [taskInfo, setTaskInfo] = useState({
+        pumpType: '',
+        pumpManufacturer: '',
+        specification: '',
+        problemDescription: '',
+        customerModel: customerInfo
+    });
 
     useEffect(() => {
         (async () => {
@@ -27,12 +45,12 @@ const HomeAction = ({ allTasks }) => {
     }, []);
 
     const getNewServicesTask = () => {
-        const tmpArr = allTasks.filter(ele => ele.taskTemplateModelId !== 1);
+        const tmpArr = allTasks.filter(ele => ele.taskTemplateModelId === 102);
         return tmpArr.length;
     }
 
     const getRepairServicesTask = () => {
-        const tmpArr = allTasks.filter(ele => ele.taskTemplateModelId === 1);
+        const tmpArr = allTasks.filter(ele => ele.taskTemplateModelId !== 102);
         return tmpArr.length;
     }
 
@@ -55,7 +73,19 @@ const HomeAction = ({ allTasks }) => {
                             <InputTaskTypeModal selectedTaskType={selectedTaskType} setSelectedTaskType={setSelectedTaskType} taskArr={taskArr} />
                             <InputTaskPriorityModal taskPriority={taskPriority} setTaskPriority={setTaskPriority} />
                             {/* <CreateFunctionModal selectedTaskType={selectedTaskType} taskPriority={taskPriority} /> */}
-                            <AssignTaskModal selectedTaskType={selectedTaskType} taskPriority={taskPriority} />
+                            <CustomerInfoModal customerInfo={customerInfo} setCustomerInfo={setCustomerInfo} />
+                            <TaskInfoDetailsModal 
+                                selectedTaskType={selectedTaskType} 
+                                taskArr={taskArr} 
+                                taskInfo={taskInfo}
+                                setTaskInfo={setTaskInfo}
+                            />
+                            <AssignTaskModal 
+                                selectedTaskType={selectedTaskType} 
+                                taskPriority={taskPriority} 
+                                customerInfo={customerInfo}
+                                taskInfo={taskInfo}
+                            />
                             <button
                                 className="btn btn-primary"
                                 data-bs-target="#inputTaskTypeModal"
